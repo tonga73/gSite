@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import NewProject from "../../components/NewProject/index";
+import NewProject from "../../components/FormNewProject/index";
 
 export default class Dashboard extends Component {
   render() {
