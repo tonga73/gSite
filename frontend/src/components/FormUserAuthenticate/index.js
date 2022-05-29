@@ -1,27 +1,44 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
+import Alert from "../Alert/index";
 
 // Actions de redux
 import { loginUserAction } from "../../app/actions/userActions";
 
 const FormUserAuthenticate = () => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [alert, setAlert] = useState({});
 
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
-  const loginUser = (user) => {
+  const logIn = (user) => {
     dispatch(loginUserAction(user));
   };
 
   const submitLoginUser = (e) => {
     e.preventDefault();
 
-    loginUser();
+    // validar formulario
+    if (email.trim() === "" || password.trim() === "") {
+      setAlert({
+        msg: "Todos los campos son obligatorios",
+        error: true,
+      });
+      return;
+    }
+
+    logIn({ email, password });
   };
+
+  const { msg } = alert;
+
   return (
     <>
+      {msg && <Alert alert={alert} />}
       <form
         onSubmit={submitLoginUser}
         className="rounded-md border border-pink-700 border-opacity-60 py-3 px-5 shadow-md shadow-pink-700"
@@ -31,14 +48,15 @@ const FormUserAuthenticate = () => {
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
           >
-            Your email
+            Correo electrónico
           </label>
           <input
             type="email"
             id="email"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="name@flowbite.com"
-            required=""
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="mb-6">
@@ -46,13 +64,14 @@ const FormUserAuthenticate = () => {
             htmlFor="password"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
           >
-            Your password
+            Password
           </label>
           <input
             type="password"
             id="password"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required=""
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div className="flex items-start mb-6">
@@ -62,7 +81,6 @@ const FormUserAuthenticate = () => {
               type="checkbox"
               value=""
               className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-              required=""
             />
           </div>
           <label

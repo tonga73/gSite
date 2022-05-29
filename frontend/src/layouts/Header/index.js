@@ -1,4 +1,17 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 const Header = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  let navigate = useNavigate();
+
+  const logOut = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+    return;
+  };
+
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
@@ -19,7 +32,7 @@ const Header = () => {
             <img
               className="w-8 h-8 rounded-full"
               src="https://avatars.githubusercontent.com/u/29558994?v=4"
-              alt="user photo"
+              alt="user"
             />
           </button>
 
@@ -38,16 +51,16 @@ const Header = () => {
           >
             <div className="py-3 px-4">
               <span className="block text-sm text-gray-900 dark:text-white">
-                Bonnie Green
+                {user.name}
               </span>
               <span className="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">
-                name@flowbite.com
+                {user.email}
               </span>
             </div>
             <ul className="py-1" aria-labelledby="dropdown">
               <li>
                 <a
-                  href="#"
+                  href="#top"
                   className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 >
                   Dashboard
@@ -55,7 +68,7 @@ const Header = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="#top"
                   className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 >
                   Settings
@@ -63,19 +76,19 @@ const Header = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="#top"
                   className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 >
                   Earnings
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                <button
+                  onClick={logOut}
+                  className="block w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 >
                   Sign out
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -120,7 +133,7 @@ const Header = () => {
           <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
             <li>
               <a
-                href="#"
+                href="#top"
                 className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
                 aria-current="page"
               >
@@ -129,7 +142,7 @@ const Header = () => {
             </li>
             <li>
               <a
-                href="#"
+                href="#top"
                 className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 About
@@ -137,7 +150,7 @@ const Header = () => {
             </li>
             <li>
               <a
-                href="#"
+                href="#top"
                 className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Services
@@ -145,7 +158,7 @@ const Header = () => {
             </li>
             <li>
               <a
-                href="#"
+                href="#top"
                 className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Pricing
@@ -153,7 +166,7 @@ const Header = () => {
             </li>
             <li>
               <a
-                href="#"
+                href="#top"
                 className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Contact

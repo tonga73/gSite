@@ -2,10 +2,70 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import Alert from "../Alert/index";
+
+import { createUserAction } from "../../app/actions/userActions";
+
 const FormUserRegister = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [alert, setAlert] = useState({});
+
+  const dispatch = useDispatch();
+
+  const createUser = (user) => {
+    dispatch(createUserAction(user));
+  };
+
+  const submitCreateUser = (e) => {
+    e.preventDefault();
+
+    // validar formulario
+    if (
+      name.trim() === "" ||
+      email.trim() === "" ||
+      password.trim() === "" ||
+      passwordConfirm.trim() === ""
+    ) {
+      setAlert({
+        msg: "Todos los campos son obligatorios",
+        error: true,
+      });
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      setAlert({
+        msg: "Los passwords deben coincidir",
+        error: true,
+      });
+      return;
+    }
+
+    if (password.length < 4) {
+      setAlert({
+        msg: "El password debe tener al menos 4 caracteres",
+        error: true,
+      });
+      return;
+    }
+
+    setAlert({});
+
+    createUser({ name, email, password });
+  };
+
+  const { msg } = alert;
+
   return (
     <>
-      <form className="rounded-md border border-pink-700 border-opacity-60 py-3 px-5 shadow-md shadow-pink-700">
+      {msg && <Alert alert={alert} />}
+      <form
+        onSubmit={submitCreateUser}
+        className="rounded-md border border-pink-700 border-opacity-60 py-3 px-5 shadow-md shadow-pink-700"
+      >
         <div className="mb-6">
           <label
             htmlFor="name"
@@ -18,7 +78,8 @@ const FormUserRegister = () => {
             id="name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Tu Nombre"
-            required=""
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="mb-6">
@@ -33,7 +94,8 @@ const FormUserRegister = () => {
             id="email"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="usuario@proveedor.com"
-            required=""
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="mb-6">
@@ -47,7 +109,8 @@ const FormUserRegister = () => {
             type="password"
             id="password"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required=""
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div className="mb-6">
@@ -61,7 +124,8 @@ const FormUserRegister = () => {
             type="password"
             id="password"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required=""
+            value={passwordConfirm}
+            onChange={(e) => setPasswordConfirm(e.target.value)}
           />
         </div>
         <button

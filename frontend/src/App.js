@@ -1,7 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import PrivateRoutes from "./routes/Private";
+import PublicRoutes from "./routes/Public";
 
 import MainLayout from "./layouts/Main/index";
-import AuthLayout from "./layouts/Auth/index";
 
 import Dashboard from "./pages/Dashboard/index";
 import Login from "./pages/Login/index";
@@ -17,10 +19,16 @@ function App() {
     <BrowserRouter>
       <Provider store={store}>
         <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<Dashboard />} />
+          {/* Private Routes */}
+          <Route path="/" element={<PrivateRoutes />}>
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<Navigate replace to="dashboard" />} />
+              <Route path="dashboard" element={<Dashboard />} />
+            </Route>
           </Route>
-          <Route path="login" element={<AuthLayout />}>
+
+          {/* Public Routes */}
+          <Route path="login" element={<PublicRoutes />}>
             <Route index element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
